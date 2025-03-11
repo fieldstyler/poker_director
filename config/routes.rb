@@ -11,4 +11,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  root "home#index"
+
+  get "/games/new" => "games#new", as: :new_single_game
+  get "/games/start" => "games#start", as: :new_single_game_start
+  get "/leagues/index" => "leagues#index"
+  get "/players/index" => "players#index"
+  post "/games/new/blinds" => "games#create"
+  get "/games/new/blinds/:id" => "games#blinds", as: :single_game_blinds
 end
