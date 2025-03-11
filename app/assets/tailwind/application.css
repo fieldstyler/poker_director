@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+.single_game {
+    @apply bg-gradient-to-b from-rose-400 to-white bg-clip-text text-transparent text-7xl font-semibold mt-32 pb-8 cursor-pointer hover:underline hover:decoration-rose-400/50 hover:text-rose-400 hover:font-bold;
+}
+
+.leagues {
+    @apply bg-gradient-to-b from-emerald-400 to-white bg-clip-text text-transparent text-7xl font-semibold mt-32 pb-8 cursor-pointer hover:underline hover:decoration-emerald-400/50 hover:text-emerald-400 hover:font-bold;
+}
+
+.players {
+    @apply bg-gradient-to-b from-cyan-400 to-white bg-clip-text text-transparent text-7xl font-semibold mt-32 pb-8 cursor-pointer hover:underline hover:decoration-cyan-400/50 hover:text-cyan-400 hover:font-bold;
+}
+
+.game_form_labels {
+    @apply bg-gradient-to-b from-rose-600 to-rose-200 bg-clip-text text-transparent px-4 py-4 mb-4 text-xl font-bold;
+}
+
+.text_field {
+    @apply text-center text-rose-600 w-32 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
+}
+
+.blind_field {
+    @apply text-center text-rose-600 w-16 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
+}
+
+.single_game_submit_button {
+    @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-32 bg-rose-500 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
+}
