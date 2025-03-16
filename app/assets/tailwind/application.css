@@ -20,10 +20,51 @@
     @apply text-center text-rose-600 w-32 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
 }
 
-.blind_field {
+.round_field {
     @apply text-center text-rose-600 w-16 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
+}
+
+.blind_field {
+    @apply text-center text-rose-600 w-24 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
 }
 
 .single_game_submit_button {
     @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-32 bg-rose-500 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
 }
+
+.game_show_page_container {
+    @apply flex flex-col items-center mx-32 my-16 space-y-16
+}
+
+.single_game_header {
+    @apply bg-gradient-to-t from-rose-600 to-white bg-clip-text text-transparent text-6xl font-bold text-center underline
+}
+
+.game_show_containers {
+    @apply flex flex-row w-full py-4 justify-around rounded-lg border-4 border-rose-200 bg-zinc-900
+}
+
+.game_show_single_container {
+    @apply flex flex-col justify-around text-rose-300 font-bold text-center 
+}
+
+.game_blinds_containers {
+    @apply flex flex-row w-full py-4 justify-around rounded-lg border-4 border-amber-100 font-bold text-center bg-zinc-900
+}
+
+.game_blinds_single_container {
+    @apply flex flex-col justify-around text-amber-300 font-bold text-center 
+}
+
+.game_players_containers {
+    @apply flex flex-row w-full py-4 justify-around rounded-lg border-4 border-cyan-100 bg-zinc-900
+}
+
+.players_header {
+    @apply text-cyan-300 text-xl font-bold text-center underline
+}
+
+.game_start_container {
+    @apply flex-grow w-1/4 py-4 text-center rounded-lg border-4 border-rose-600 bg-rose-200 text-rose-600 text-2xl font-bold hover:border-rose-100 hover:bg-rose-600 hover:text-rose-100 cursor-pointer
+}
+

@@ -20,4 +20,7 @@ Rails.application.routes.draw do
   get "/players/index" => "players#index"
   post "/games/new/blinds" => "games#create"
   get "/games/new/blinds/:id" => "games#blinds", as: :single_game_blinds
+  post "/levels/create" => "levels#create"
+  get "/games/show/:id" => "games#show", as: :games_show
+  get "games/start/:id" => "games#start", as: :start_single_game
 end

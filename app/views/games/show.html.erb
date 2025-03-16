@@ -1,0 +1,79 @@
+<div class='game_show_page_container'> 
+    <div class='single_game_header'> Game Details </div>
+    <div class='game_show_containers'> 
+        <div class='game_show_single_container'> 
+            <div class='underline'>Buy In</div>
+            <div class=''><%= @game.buy_in_with_dollar %></div>
+        </div>
+        <div class='game_show_single_container'> 
+            <div class='underline'>Starting Stack</div>
+            <div class=''><%= @game.add_commas_to_stack %></div>
+        </div>
+        <div class='game_show_single_container'> 
+            <div class='underline'>Players</div>
+            <div class=''><%= 10 %></div>
+        </div>
+        <div class='game_show_single_container'> 
+            <div class='underline'>Places Paid</div>
+            <div class=''><%= @game.places_paid %></div>
+        </div>
+        <div class='game_show_single_container'> 
+            <div class='underline'>Knockout Tournament?</div>
+            <% if @game.knockouts == true %>
+                <div class=''>Yes</div>
+            <% else %>
+                <div class=''>No</div>
+            <% end %>
+        </div>
+    </div>
+    <div class='game_blinds_containers'> 
+        <div class='game_blinds_single_container'> 
+            <div class='underline'>Level</div>
+            <% count = 1 %>
+            <% @game.level_count.to_i.times do %>
+                <div><%= count %></div>
+                <% count += 1 %>
+            <% end %>
+        </div>
+        <div class='game_blinds_single_container'> 
+            <div class='underline'>Small Blind</div>
+            <% count = 0 %>
+            <% @game.level_count.to_i.times do %>
+                <div><%= @game.levels["#{count}".to_i].sb %></div>
+                <% count += 1 %>
+            <% end %>
+        </div>
+        <div class='game_blinds_single_container'> 
+            <div class='underline'>Big Blind</div>
+            <% count = 0 %>
+            <% @game.level_count.to_i.times do %>
+                <div><%= @game.levels["#{count}".to_i].bb %></div>
+                <% count += 1 %>
+            <% end %>
+        </div>
+        <% if @game.levels.first.ante != "0" %>
+            <div class='game_blinds_single_container'> 
+                <div class='underline'>Ante</div>
+                <% count = 0 %>
+                <% @game.level_count.to_i.times do %>
+                    <div><%= @game.levels["#{count}".to_i].ante %></div>
+                    <% count += 1 %>
+                <% end %>
+            </div>
+        <% end %>
+        <div class='game_blinds_single_container'> 
+            <div class='underline'>Round Length</div>
+            <% count = 0 %>
+            <% @game.level_count.to_i.times do %>
+                <div><%= @game.levels["#{count}".to_i].length %></div>
+                <% count += 1 %>
+            <% end %>
+        </div>
+    </div>
+    <div class='game_players_containers'> 
+        <div class='players_header'>Players</div>
+    </div>
+    <div class='game_start_container'> 
+        <div><%= link_to "Start Game", start_single_game_path %></div>
+    </div>
+</div>

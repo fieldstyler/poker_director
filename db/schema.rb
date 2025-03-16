@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_10_033930) do
+ActiveRecord::Schema[8.0].define(version: 2025_03_14_041941) do
   create_table "games", force: :cascade do |t|
     t.string "buy_in"
     t.string "starting_stack"
@@ -21,4 +21,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_03_10_033930) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "levels", force: :cascade do |t|
+    t.string "sb"
+    t.string "bb"
+    t.string "ante"
+    t.string "length"
+    t.integer "game_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_levels_on_game_id"
+  end
+
+  add_foreign_key "levels", "games"
 end
