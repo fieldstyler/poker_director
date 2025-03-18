@@ -1,6 +1,23 @@
 class LevelsController < ApplicationController
+   
     def create 
         @game = Game.find(params[:id])
+        create_blind_levels(params, @game)
+        redirect_to games_show_path(@game.id)
+    end
+
+    def edit 
+        @game = Game.find(params["id"])
+        @prev_levels = @game.levels.count
+        @levels = @game.level_count.to_i
+        @new_levels = @levels - @prev_levels
+        @count = 1
+        @length = @game.round_length
+    end
+
+    def update 
+        @game = Game.find(params[:id])
+        @game.levels.delete_all
         create_blind_levels(params, @game)
         redirect_to games_show_path(@game.id)
     end
