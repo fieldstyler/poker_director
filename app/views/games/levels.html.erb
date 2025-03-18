@@ -10,7 +10,7 @@
                 <%= form.label :ante, "Ante: ", class: "game_form_labels" %>
                 <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: 0, class: "blind_field" %>
                 <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
-                <%= form.number_field "length#{@count}", in: 10..120, step: 10, value: @length, class: "blind_field" %>
+                <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @length, class: "blind_field" %>
             </div>
             <% @count += 1 %>
         <% end %>
