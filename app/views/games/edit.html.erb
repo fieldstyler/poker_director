@@ -1,0 +1,38 @@
+<%= form_with url: update_game_path, method: :patch do |form| %>
+    <div class="grid grid-cols-1 justify-items-center mt-8">
+        <div class="mt-6 mb-4">
+            <%= form.label :buy_in, "Buy-In: ", class: "game_form_labels" %>
+            <%= form.number_field :buy_in, in: 0..10000, step: 10, value: @game.buy_in, class: "text_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.label :starting_stack, "Starting Stack: ", class: "game_form_labels" %>
+            <%= form.number_field :starting_stack, in: 5000..1000000, step: 5000, value: @game.starting_stack, class: "text_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.label :round_length, "Round Length: ", class: "game_form_labels" %>
+            <%= form.number_field :round_length, in: 10..120, step: 10, value: @game.round_length, class: "text_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.label :places_paid, "Places Paid: ", class: "game_form_labels" %>
+            <%= form.number_field :places_paid, value: @game.places_paid, class: "text_field" %>
+        </div>
+        <% if @game.knockouts == true %>
+            <div class="mt-4 mb-4">
+                <%= form.label :knockouts, "Knockouts?", class: "game_form_labels" %>
+                <%= form.checkbox :knockouts, type: "checkbox", checked: true, class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
+            </div>
+        <% else %>
+            <div class="mt-4 mb-4">
+                <%= form.label :knockouts, "Knockouts?", class: "game_form_labels" %>
+                <%= form.checkbox :knockouts, type: "checkbox", class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
+            </div>
+        <% end %>
+        <div class="mt-4 mb-4">
+            <%= form.label :level_count, "How Many Levels? ", class: "game_form_labels" %>
+            <%= form.number_field :level_count, value: @game.level_count, class: "text_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.submit "Submit", name: nil, class: "single_game_submit_button" %>
+        </div>
+    </div>
+<% end %>
