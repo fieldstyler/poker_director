@@ -1,0 +1,24 @@
+<%= form_with url: levels_create_path, method: :post do |form| %>
+    <div class="grid grid-cols-1 justify-items-center mt-8">
+        <% @levels.to_i.times do %> 
+            <div class="mt-6 mb-4">
+                <%= form.label :level, "Level #{@count}: ", class: "game_form_labels" %>
+                <%= form.label :sb, "Small Blind: ", class: "game_form_labels" %>
+                <%= form.number_field "sb#{@count}", in: 100..10000000, step: 100, value: 100*@count, class: "blind_field" %>
+                <%= form.label :bb, "Big Blind: ", class: "game_form_labels" %>
+                <%= form.number_field "bb#{@count}", in: 100..10000000, step: 100, value: 200*@count, class: "blind_field" %>
+                <%= form.label :ante, "Ante: ", class: "game_form_labels" %>
+                <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: 0, class: "blind_field" %>
+                <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
+                <%= form.number_field "length#{@count}", in: 10..120, step: 10, value: @length, class: "blind_field" %>
+            </div>
+            <% @count += 1 %>
+        <% end %>
+        <div> 
+            <%= form.hidden_field :id, value: @game.id %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.submit "Submit", name: nil, class: "single_game_submit_button" %>
+        </div>
+    </div>
+<% end %>

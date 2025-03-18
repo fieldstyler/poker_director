@@ -1,0 +1,72 @@
+<%= form_with url: levels_update_path, method: :patch do |form| %>
+    <div class="grid grid-cols-1 justify-items-center mt-8">
+        <% if @prev_levels == @levels %>
+            <% @levels.times do %> 
+                <div class="mt-6 mb-4">
+                    <%= form.label :level, "Level #{@count}: ", class: "game_form_labels" %>
+                    <%= form.label :sb, "Small Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "sb#{@count}", in: 100..10000000, step: 100, value: @game.levels[@count-1].sb, class: "blind_field" %>
+                    <%= form.label :bb, "Big Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "bb#{@count}", in: 100..10000000, step: 100, value: @game.levels[@count-1].bb, class: "blind_field" %>
+                    <%= form.label :ante, "Ante: ", class: "game_form_labels" %>
+                    <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: @game.levels[@count-1].ante, class: "blind_field" %>
+                    <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
+                    <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @game.round_length, class: "blind_field" %>
+                </div>
+                <% @count += 1 %>
+            <% end %>
+        <% elsif @prev_levels < @levels %>
+            <% @prev_levels.times do %> 
+                <div class="mt-6 mb-4">
+                    <%= form.label :level, "Level #{@count}: ", class: "game_form_labels" %>
+                    <%= form.label :sb, "Small Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "sb#{@count}", in: 100..10000000, step: 100, value: @game.levels[@count-1].sb, class: "blind_field" %>
+                    <%= form.label :bb, "Big Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "bb#{@count}", in: 100..10000000, step: 100, value: @game.levels[@count-1].bb, class: "blind_field" %>
+                    <%= form.label :ante, "Ante: ", class: "game_form_labels" %>
+                    <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: @game.levels[@count-1].ante, class: "blind_field" %>
+                    <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
+                    <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @game.levels[@count-1].length, class: "blind_field" %>
+                </div>
+                <% @count += 1 %>
+            <% end %>
+            <% count = 1 %>
+            <% @new_levels.times do %> 
+                <div class="mt-6 mb-4">
+                    <%= form.label :level, "Level #{@count}: ", class: "game_form_labels" %>
+                    <%= form.label :sb, "Small Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "sb#{@count}", in: 100..10000000, step: 100, value: @game.levels.last.sb.to_i + 100*count, class: "blind_field" %>
+                    <%= form.label :bb, "Big Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "bb#{@count}", in: 100..10000000, step: 100, value: @game.levels.last.bb.to_i + 200*count, class: "blind_field" %>
+                    <%= form.label :ante, "Ante: ", class: "game_form_labels" %>
+                    <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: @game.levels.last.ante.to_i + 0, class: "blind_field" %>
+                    <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
+                    <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @game.levels.last.length, class: "blind_field" %>
+                </div>
+                <% @count += 1 %>
+                <% count += 1 %>
+            <% end %>
+        <% else %>
+            <% @levels.times do %> 
+                <div class="mt-6 mb-4">
+                    <%= form.label :level, "Level #{@count}: ", class: "game_form_labels" %>
+                    <%= form.label :sb, "Small Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "sb#{@count}", in: 100..10000000, step: 100, value: @game.levels[@count-1].sb, class: "blind_field" %>
+                    <%= form.label :bb, "Big Blind: ", class: "game_form_labels" %>
+                    <%= form.number_field "bb#{@count}", in: 100..10000000, step: 100, value: @game.levels[@count-1].bb, class: "blind_field" %>
+                    <%= form.label :ante, "Ante: ", class: "game_form_labels" %>
+                    <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: @game.levels[@count-1].ante, class: "blind_field" %>
+                    <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
+                    <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @game.levels[@count-1].length, class: "blind_field" %>
+                </div>
+                <% count += 1 %>
+            <% end %>
+        <% end %>
+        <div> 
+            <%= form.hidden_field :id, value: @game.id %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.submit "Submit", name: nil, class: "single_game_submit_button" %>
+        </div>
+    </div>
+<% end %>
