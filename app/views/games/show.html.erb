@@ -2,8 +2,8 @@
     <div class='single_game_header'> Game Details </div>
     <div class='game_show_containers'> 
         <div class='game_show_single_container'> 
-            <div class='underline'>Buy In</div>
-            <div class=''><%= @game.buy_in_with_dollar %></div>
+            <div class='underline pl-16'>Buy In</div>
+            <div class='pl-16'><%= @game.buy_in_with_dollar %></div>
         </div>
         <div class='game_show_single_container'> 
             <div class='underline'>Starting Stack</div>
@@ -25,17 +25,21 @@
                 <div class=''>No</div>
             <% end %>
         </div>
+        <%= link_to edit_game_path(@game.id) do %>
+            <%= heroicon "pencil-square", title: "Edit", type: "outline", class: "single_game_edit_button" %>
+        <% end %>
     </div>
-    <div class='game_blinds_containers'> 
-        <div class='game_blinds_single_container'> 
-            <div class='underline'>Level</div>
+    <div class='levels_header'> Blind Structure </div>
+    <div class='game_levels_containers'> 
+        <div class='game_levels_single_container'> 
+            <div class='underline pl-16'>Level</div>
             <% count = 1 %>
             <% @game.level_count.to_i.times do %>
-                <div><%= count %></div>
+                <div class='pl-16'><%= count %></div>
                 <% count += 1 %>
             <% end %>
         </div>
-        <div class='game_blinds_single_container'> 
+        <div class='game_levels_single_container'> 
             <div class='underline'>Small Blind</div>
             <% count = 0 %>
             <% @game.level_count.to_i.times do %>
@@ -43,7 +47,7 @@
                 <% count += 1 %>
             <% end %>
         </div>
-        <div class='game_blinds_single_container'> 
+        <div class='game_levels_single_container'> 
             <div class='underline'>Big Blind</div>
             <% count = 0 %>
             <% @game.level_count.to_i.times do %>
@@ -52,7 +56,7 @@
             <% end %>
         </div>
         <% if @game.levels.first.ante != "0" %>
-            <div class='game_blinds_single_container'> 
+            <div class='game_levels_single_container'> 
                 <div class='underline'>Ante</div>
                 <% count = 0 %>
                 <% @game.level_count.to_i.times do %>
@@ -61,7 +65,7 @@
                 <% end %>
             </div>
         <% end %>
-        <div class='game_blinds_single_container'> 
+        <div class='game_levels_single_container'> 
             <div class='underline'>Round Length</div>
             <% count = 0 %>
             <% @game.level_count.to_i.times do %>
@@ -69,11 +73,15 @@
                 <% count += 1 %>
             <% end %>
         </div>
+        <%= link_to edit_single_game_levels_path(@game.id) do %>
+            <%= heroicon "pencil-square", title: "Edit", type: "outline", class: "single_game_levels_edit_button" %>
+        <% end %>
     </div>
+    <div class='players_header'> Players </div>
     <div class='game_players_containers'> 
-        <div class='players_header'>Players</div>
+        <div class='game_players_single_container'>Players</div>
     </div>
     <div class='game_start_container'> 
-        <div><%= link_to "Start Game", start_single_game_path %></div>
+        <div><%= link_to "Start Game", start_single_game_path(@game.id) %></div>
     </div>
 </div>
