@@ -1,6 +1,5 @@
 class GamesController < ApplicationController
-    def new 
-
+    def new
     end
 
     def show
@@ -11,7 +10,7 @@ class GamesController < ApplicationController
         @game = Game.create(games_params)
         redirect_to single_game_levels_path(@game.id)
     end
-    
+
     def edit
         @game = Game.find(params[:id])
     end
@@ -46,5 +45,4 @@ class GamesController < ApplicationController
     def games_params
         params.permit(:buy_in, :starting_stack, :round_length, :places_paid, :knockouts, :level_count)
     end
-
 end

@@ -43,6 +43,7 @@ gem "tailwindcss-ruby"
 gem "tailwindcss-rails"
 gem "pry"
 gem "heroicon-rails"
+gem "rubocop", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -3,14 +3,14 @@ class Game < ApplicationRecord
     validates :knockouts, presence: true, allow_blank: true
     has_many :levels, dependent: :destroy
 
-    def add_commas_to_stack(comma=4, multiplier=1)
+    def add_commas_to_stack(comma = 4, multiplier = 1)
         stack = self.starting_stack
-        length = stack.length 
+        length = stack.length
         length%3 == 0 ? count = (length / 3) - 1 : count = length / 3
-        count.times do 
+        count.times do
             stack.insert("-#{comma*multiplier}".to_i, ",")
             multiplier += 1
-        end 
+        end
         stack
     end
 
