@@ -21,8 +21,8 @@
                 countdownEl.innerHTML = `${minutes}:${seconds}`;
                 time--;
             } else {
-                window.location.href += `/level/${count+1}`
+                window.location.href = `${count+1}`
             }
-        }
+        };
     <% end %>
 </script>

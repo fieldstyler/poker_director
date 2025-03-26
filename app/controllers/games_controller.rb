@@ -40,6 +40,11 @@ class GamesController < ApplicationController
         @count = 1
     end
 
+    def blinds
+        @game = Game.find(params[:id])
+        @count = params["count"].to_i
+    end
+
     private
 
     def games_params
