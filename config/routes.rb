@@ -21,7 +21,6 @@ Rails.application.routes.draw do
   get "/games/new/levels/:id" => "games#levels", as: :single_game_levels
   post "/levels/create" => "levels#create"
   get "/games/show/:id" => "games#show", as: :games_show
-  get "games/start/:id" => "games#start", as: :start_single_game
   get "games/edit/:id" => "games#edit", as: :edit_game
   patch "games/update/:id" => "games#update", as: :update_game
   get "/levels/edit/:id" => "levels#edit", as: :edit_single_game_levels

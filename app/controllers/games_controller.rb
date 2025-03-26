@@ -35,11 +35,6 @@ class GamesController < ApplicationController
         @length = @game.round_length
     end
 
-    def start
-        @game = Game.find(params[:id])
-        @count = 1
-    end
-
     def blinds
         @game = Game.find(params[:id])
         @count = params["count"].to_i
