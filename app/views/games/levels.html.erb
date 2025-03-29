@@ -11,6 +11,10 @@
                 <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: 0, class: "blind_field" %>
                 <%= form.label :length, "Round Length: ", class: "game_form_labels" %>
                 <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @length, class: "blind_field" %>
+                <%= form.label :break, "Break After Level?", class: "game_form_labels" %>
+                <%= form.checkbox "break#{@count}", type: "checkbox", class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
+                <%= form.label :break_length, "Break Length: ", class: "game_form_labels" %>
+                <%= form.number_field "break_length#{@count}", in: 0..120, step: 5, value: 0, class: "blind_field" %>
             </div>
             <% @count += 1 %>
         <% end %>

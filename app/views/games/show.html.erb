@@ -3,11 +3,11 @@
     <div class='game_show_containers'> 
         <div class='game_show_single_container'> 
             <div class='underline pl-16'>Buy In</div>
-            <div class='pl-16'><%= @game.buy_in_with_dollar %></div>
+            <div class='pl-16'><%= add_dollar_sign(@game.buy_in) %></div>
         </div>
         <div class='game_show_single_container'> 
             <div class='underline'>Starting Stack</div>
-            <div class=''><%= @game.add_commas_to_stack %></div>
+            <div class=''><%= add_commas(@game.starting_stack) %></div>
         </div>
         <div class='game_show_single_container'> 
             <div class='underline'>Players</div>

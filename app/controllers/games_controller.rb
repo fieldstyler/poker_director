@@ -30,7 +30,7 @@ class GamesController < ApplicationController
 
     def levels
         @game = Game.find(params[:id])
-        @levels = @game.level_count.to
+        @levels = @game.level_count.to_i
         @count = 1
         @length = @game.round_length
     end
@@ -40,9 +40,14 @@ class GamesController < ApplicationController
         @count = params["count"].to_i
     end
 
+    def break
+        @game = Game.find(params[:id])
+        @count = params["count"].to_i
+    end
+
     private
 
     def games_params
-        params.permit(:buy_in, :starting_stack, :round_length, :places_paid, :knockouts, :level_count)
+        params.permit(:buy_in, :starting_stack, :round_length, :places_paid, :knockouts, :rebuys, :level_count)
     end
 end

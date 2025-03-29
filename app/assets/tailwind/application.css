@@ -84,3 +84,71 @@
     @apply absolute top-2 right-2 w-7 h-7 bg-amber-200 text-black rounded-full p-1 hover:bg-amber-500 cursor-pointer;
 }
 
+.game_play_full {
+    @apply flex flex-row justify-between h-[calc(80vh)] mt-4
+}
+
+.game_play_containers {
+    @apply flex flex-col justify-between place-content-center place-items-center
+}
+
+.game_details_containers {
+    @apply flex flex-col justify-around place-content-center mx-8 place-items-center
+}
+
+.timer {
+    @apply z-0 bg-gradient-to-r from-rose-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center
+}
+
+.timer_break {
+    @apply z-0 bg-gradient-to-r from-cyan-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center
+}
+
+.game_details {
+    @apply bg-gradient-to-t from-rose-400 to-white bg-clip-text text-transparent text-[2vw] font-bold text-center
+}
+
+.game_details_break {
+    @apply bg-gradient-to-t from-cyan-400 to-white bg-clip-text text-transparent text-3xl font-bold text-center
+}
+
+.current_blinds {
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[5vw] font-extrabold text-center
+}
+
+.current_blinds_title {
+    @apply bg-gradient-to-b from-white to-rose-400 bg-clip-text text-transparent text-[4vw] font-bold text-center
+}
+
+.next_blinds {
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[3vw] font-extrabold text-center
+}
+
+.next_blinds_break {
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-7xl font-extrabold text-center
+}
+
+.next_blinds_title {
+    @apply bg-gradient-to-b from-white to-rose-400 bg-clip-text text-transparent text-[3vw] font-bold text-center
+}
+
+.next_blinds_title_break {
+    @apply bg-gradient-to-b from-white to-cyan-400 bg-clip-text text-transparent text-6xl font-bold text-center
+}
+
+.round {
+    @apply bg-gradient-to-t from-rose-400 to-white bg-clip-text text-transparent text-[4vw] font-bold text-center
+}
+
+.round_break {
+    @apply bg-gradient-to-t from-cyan-400 to-white bg-clip-text text-transparent text-8xl font-bold text-center
+}
+
+.hidden {
+    @apply text-zinc-800 text-2xl font-bold text-center
+}
+
+.winner {
+    @apply z-0 bg-gradient-to-r from-rose-600 to-slate-300 bg-clip-text text-transparent text-9xl pb-8 font-bold text-center
+}
+

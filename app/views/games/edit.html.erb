@@ -27,6 +27,17 @@
                 <%= form.checkbox :knockouts, type: "checkbox", class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
             </div>
         <% end %>
+        <% if @game.rebuys == true %>
+            <div class="mt-4 mb-4">
+                <%= form.label :rebuys, "Rebuys?", class: "game_form_labels" %>
+                <%= form.checkbox :rebuys, type: "checkbox", checked: true, class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
+            </div>
+        <% else %>
+            <div class="mt-4 mb-4">
+                <%= form.label :rebuys, "Rebuys?", class: "game_form_labels" %>
+                <%= form.checkbox :rebuys, type: "checkbox", class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
+            </div>
+        <% end %>
         <div class="mt-4 mb-4">
             <%= form.label :level_count, "How Many Levels? ", class: "game_form_labels" %>
             <%= form.number_field :level_count, value: @game.level_count, class: "text_field" %>

@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   get "/levels/edit/:id" => "levels#edit", as: :edit_single_game_levels
   patch "games/levels/update/:id" => "levels#update", as: :levels_update
   get "games/start/:id/level/:count" => "games#blinds", as: :game_blinds
+  get "games/start/:id/level/:count/break" => "games#break", as: :game_break
 end

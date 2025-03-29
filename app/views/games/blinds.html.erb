@@ -1,12 +1,103 @@
-<body> 
-    <div id="countdown" class="single_game_header"></div>
-</body>
-<script>
-    <% if @count <= @game.levels.count %> 
-        let startingMinutes = <%= @game.levels[@count-1].length.to_i %>;
-        let time = startingMinutes;
-        const count = <%= @count %>
+<div class="game_play_full"> 
+    <div class="game_play_containers"> 
+        <div class="game_details_containers">
+            <button id="click" type="button" class="game_details">Date: <%= Date.today.strftime("%m-%d-%y") %></button>
+        </div>
+        <% if @game.levels[@count-1].break == true %>
+            <div class="game_details_containers">
+                <div class="game_details"><%= @game.levels[@count-1].break_length %> Minute Break</div>
+                <br>
+                <div class="game_details">After This Level</div>
+            </div>  
+        <% else %>
+            <% count = @count %>
+            <% until @game.levels[count-1].nil? || @game.levels[count-1].break == true %>
+                <% count += 1 %>
+            <% end %>
+            <% if @game.levels[count-1].nil? %>
+                <div class='game_details_containers'>
+                    <div class="hidden">No More Breaks</div>
+                    <br>
+                    <div class="hidden">Level <%= count  %></div>
+                </div>
+            <% else %>
+                <div class='game_details_containers'>
+                    <div class="game_details">Break After</div>
+                    <br>
+                    <div class="game_details">Level <%= count  %></div>
+                </div>
+            <% end %>
+        <% end %>
+        <% if !@game.levels[@count].nil? %>
+            <div class="game_details_containers">
+                <div class="next_blinds_title">Next Blinds</div>
+                <br>
+                <div class="next_blinds"><%= add_commas(@game.levels[@count].sb) %>   -    <%= add_commas(@game.levels[@count].bb) %></div>
+                <% if @game.levels[@count].ante != "0" %>
+                    <div class="next_blinds">Ante: <%= @game.levels[@count].ante %></div>
+                <% end %>
+            </div> 
+        <% end %>
+    </div>
+    <div class="game_play_containers"> 
+        <div class="round">Level <%= @count %></div>
+        <% if @count != @game.levels.count %>
+            <div id="countdown" class="timer"></div>
+        <% else %>
+            <div id="countdown" class="winner"></div>
+        <% end %>
+        <div class="game_details_containers">
+            <div class="current_blinds_title">Current Blinds</div>
+            <br>
+            <div class="current_blinds"><%= add_commas(@game.levels[@count-1].sb) %>   -    <%= add_commas(@game.levels[@count-1].bb) %></div>
+            <br>
+            <% if @game.levels[@count-1].ante != "0" %>
+                <div class="current_blinds">Ante: <%= @game.levels[@count-1].ante %></div>
+            <% end %>
+        </div>
+    </div>
+    <div class="game_play_containers"> 
+        <div class="game_details_containers">
+            <div class="game_details">Buy-in: $<%= @game.buy_in %></div>
+            <div class="game_details">Players: 10 / Rebuys: 0</div>
+        </div>
         
+        <div class="game_details_containers">
+            <div class="game_details">Payouts</div>
+            <br>
+            <div class="game_details">1st: 50%</div>
+            <div class="game_details">2nd: 30%</div>
+            <div class="game_details">3rd: 15%</div>
+            <div class="game_details">4th: 5%</div>
+        </div>
+    </div>
+</div>
+<script>
+    <% if @count <= @game.levels.count && @game.levels[@count-1].break == true %>
+        let startingMinutes = <%= @game.levels[@count-1].length.to_i %>;
+        let time = startingMinutes * 60;
+        const count = <%= @count %>
+        let countdownEl = document.getElementById('countdown');
+        
+        var myTimer = setInterval(updateCountdown, 1000);
+        
+        function updateCountdown() {
+            if (time >= 0) {
+                const minutes = Math.floor(time / 60);
+                let seconds = time % 60;
+            
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+            
+                countdownEl.innerHTML = `${minutes}:${seconds}`;
+                time--;
+            } else {
+                window.location.href = `${count+1}/break`
+            }
+        };
+    <% elsif @count < @game.levels.count %> 
+        let startingMinutes = <%= @game.levels[@count-1].length.to_i %>;
+        let time = startingMinutes * 60;
+        const count = <%= @count %>
         let countdownEl = document.getElementById('countdown');
         
         var myTimer = setInterval(updateCountdown, 1000);
@@ -24,5 +115,7 @@
                 window.location.href = `${count+1}`
             }
         };
+    <% else %>
+        document.getElementById('countdown').innerHTML = "Play Until Winner!"
     <% end %>
 </script>
