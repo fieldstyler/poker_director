@@ -1,0 +1,5 @@
+class AddEliminatedToGamePlayers < ActiveRecord::Migration[8.0]
+  def change
+    add_column :game_players, :eliminated, :boolean
+  end
+end
