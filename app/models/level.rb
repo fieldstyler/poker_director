@@ -23,4 +23,15 @@ class Level < ApplicationRecord
         end
         stack
     end
+
+    def break_after?
+        game.levels[index_in_game + 1]&.break?
+    end
+
+    private
+
+    def index_in_game
+        game.levels.index(self)
+    end
+  
 end

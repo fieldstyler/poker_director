@@ -2,3 +2,6 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import 'flowbite'
+
+// Add this to enable method: :delete, data-confirm, etc.
+import "@rails/ujs"

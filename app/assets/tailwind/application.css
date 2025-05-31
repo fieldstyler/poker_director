@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────── */
+/* 🌈 Page Section Headers                        */
+/* ─────────────────────────────────────────────── */
 .single_game {
     @apply bg-gradient-to-b from-rose-400 to-white bg-clip-text text-transparent text-7xl font-semibold mt-32 pb-8 cursor-pointer hover:underline hover:decoration-rose-400/50 hover:text-rose-400 hover:font-bold;
 }
@@ -12,12 +15,15 @@
     @apply bg-gradient-to-b from-cyan-400 to-white bg-clip-text text-transparent text-7xl font-semibold mt-32 pb-8 cursor-pointer hover:underline hover:decoration-cyan-400/50 hover:text-cyan-400 hover:font-bold;
 }
 
+/* ─────────────────────────────────────────────── */
+/* 🧾 Game Forms + Inputs                         */
+/* ─────────────────────────────────────────────── */
 .game_form_labels {
     @apply bg-gradient-to-b from-rose-600 to-rose-200 bg-clip-text text-transparent px-4 py-4 mb-4 text-xl font-bold;
 }
 
 .text_field {
-    @apply text-center text-rose-600 w-32 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
+    @apply text-center text-rose-600 w-32 border-2 border-rose-600 bg-zinc-300 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
 }
 
 .round_field {
@@ -25,55 +31,62 @@
 }
 
 .blind_field {
-    @apply text-center text-rose-600 w-24 border-2 border-rose-600 bg-zinc-200 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
+    @apply text-center text-rose-600 md:w-16 w-20 border-2 border-rose-600 bg-zinc-300 rounded focus:ring-4 focus:ring-rose-600 font-bold caret-rose-600;
 }
 
 .single_game_submit_button {
     @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-32 bg-rose-500 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
 }
 
+/* ─────────────────────────────────────────────── */
+/* 🧩 Game Display Layouts                        */
+/* ─────────────────────────────────────────────── */
 .game_show_page_container {
-    @apply flex flex-col items-center mx-32 my-16
+    @apply flex flex-col items-center mx-32 my-16;
 }
 
 .single_game_header {
-    @apply mb-12 bg-gradient-to-t from-rose-600 to-white bg-clip-text text-transparent text-6xl font-bold text-center
+    @apply bg-gradient-to-t from-rose-600 to-white bg-clip-text text-transparent text-6xl font-bold text-center;
 }
 
 .levels_header {
-    @apply mb-2 bg-gradient-to-t from-amber-600 to-white bg-clip-text text-transparent text-3xl font-bold text-center
+    @apply mb-4 bg-gradient-to-t from-amber-600 to-white bg-clip-text text-transparent text-3xl font-bold text-center;
+}
+
+.game_players_header {
+    @apply mb-8 bg-gradient-to-t from-cyan-600 to-white bg-clip-text text-transparent text-3xl font-bold text-center;
 }
 
 .players_header {
-    @apply mb-2 bg-gradient-to-t from-cyan-600 to-white bg-clip-text text-transparent text-3xl font-bold text-center
+    @apply pb-1 mb-8 bg-gradient-to-t from-cyan-600 to-white bg-clip-text text-transparent text-5xl font-bold text-center;
 }
 
 .game_show_containers {
-    @apply mb-12 flex flex-row w-full py-4 justify-between rounded-lg border-4 border-rose-200 bg-zinc-900 relative
+    @apply mt-4 mb-12 flex flex-row w-full py-4 justify-between rounded-lg border-4 border-rose-200 bg-zinc-900 relative;
 }
 
 .game_show_single_container {
-    @apply flex flex-col justify-around text-rose-300 font-bold text-center relative
+    @apply flex flex-col justify-around text-rose-300 font-bold text-center relative;
 }
 
 .game_levels_containers {
-    @apply mb-12 flex flex-row w-full py-4 justify-between rounded-lg border-4 border-amber-100 font-bold text-center bg-zinc-900 relative
+    @apply mb-8 flex flex-row w-full py-4 justify-between rounded-lg border-4 border-amber-100 font-bold text-center bg-zinc-900 relative;
 }
 
 .game_levels_single_container {
-    @apply flex flex-col text-amber-300 font-bold text-center relative
+    @apply flex flex-col text-amber-300 font-bold text-center relative;
 }
 
 .game_players_containers {
-    @apply mb-12 flex flex-row w-full py-4 justify-around rounded-lg border-4 border-cyan-100 bg-zinc-900
+    @apply mb-12 flex flex-row w-full py-4 justify-around rounded-lg border-4 border-cyan-100 bg-zinc-900;
 }
 
 .game_players_single_container {
-    @apply text-cyan-300 text-xl font-bold text-center underline
+    @apply text-cyan-300 text-xl font-bold text-center underline;
 }
 
 .game_start_container {
-    @apply flex-grow w-1/4 py-4 text-center rounded-lg border-4 border-rose-600 bg-rose-200 text-rose-600 text-2xl font-bold hover:border-rose-100 hover:bg-rose-400 hover:text-rose-100 cursor-pointer
+    @apply flex-grow w-1/4 py-4 text-center rounded-lg border-4 border-rose-600 bg-rose-200 text-rose-600 text-2xl font-bold hover:border-rose-100 hover:bg-rose-400 hover:text-rose-100 cursor-pointer;
 }
 
 .single_game_edit_button {
@@ -84,71 +97,198 @@
     @apply absolute top-2 right-2 w-7 h-7 bg-amber-200 text-black rounded-full p-1 hover:bg-amber-500 cursor-pointer;
 }
 
+/* ─────────────────────────────────────────────── */
+/* ⏱ Game Timer + Info Screens                   */
+/* ─────────────────────────────────────────────── */
 .game_play_full {
-    @apply flex flex-row justify-between h-[calc(80vh)] mt-4
+    @apply flex flex-row justify-between max-w-[100vw] h-[calc(80vh)] mt-4 mx-4 overflow-x-hidden;
 }
 
 .game_play_containers {
-    @apply flex flex-col justify-between place-content-center place-items-center
+    @apply flex flex-col justify-between place-content-center place-items-center;
 }
 
 .game_details_containers {
-    @apply flex flex-col justify-around place-content-center mx-8 place-items-center
+    @apply flex flex-col justify-around place-content-center px-1 place-items-center;
 }
 
 .timer {
-    @apply z-0 bg-gradient-to-r from-rose-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center
+    @apply z-0 bg-gradient-to-r from-rose-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center;
+}
+
+.league_timer {
+    @apply z-0 bg-gradient-to-r from-emerald-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center;
 }
 
 .timer_break {
-    @apply z-0 bg-gradient-to-r from-cyan-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center
+    @apply z-0 bg-gradient-to-r from-cyan-600 to-slate-300 bg-clip-text text-transparent text-[15vw] font-bold text-center;
 }
 
 .game_details {
-    @apply bg-gradient-to-t from-rose-400 to-white bg-clip-text text-transparent text-[2vw] font-bold text-center
+    @apply bg-gradient-to-t from-rose-400 to-white bg-clip-text text-transparent text-[2vw] font-bold text-center;
+}
+
+.league_game_details {
+    @apply bg-gradient-to-t from-emerald-400 to-white bg-clip-text text-transparent text-[2vw] font-bold text-center;
 }
 
 .game_details_break {
-    @apply bg-gradient-to-t from-cyan-400 to-white bg-clip-text text-transparent text-3xl font-bold text-center
+    @apply bg-gradient-to-t from-cyan-400 to-white bg-clip-text text-transparent text-[2vw] font-bold text-center;
+}
+
+.league_game_details_break {
+    @apply bg-gradient-to-t from-emerald-400 to-white bg-clip-text text-transparent text-3xl font-bold text-center;
 }
 
 .current_blinds {
-    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[5vw] font-extrabold text-center
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[5vw] font-extrabold text-center;
 }
 
 .current_blinds_title {
-    @apply bg-gradient-to-b from-white to-rose-400 bg-clip-text text-transparent text-[4vw] font-bold text-center
+    @apply bg-gradient-to-b from-white to-rose-400 bg-clip-text text-transparent text-[4vw] font-bold text-center;
+}
+
+.league_current_blinds_title {
+    @apply bg-gradient-to-b from-white to-emerald-400 bg-clip-text text-transparent text-[4vw] font-bold text-center;
 }
 
 .next_blinds {
-    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[3vw] font-extrabold text-center
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[3vw] font-extrabold text-center;
 }
 
 .next_blinds_break {
-    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-7xl font-extrabold text-center
+    @apply bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent text-[3vw] font-extrabold text-center;
 }
 
 .next_blinds_title {
-    @apply bg-gradient-to-b from-white to-rose-400 bg-clip-text text-transparent text-[3vw] font-bold text-center
+    @apply bg-gradient-to-b from-white to-rose-400 bg-clip-text text-transparent text-[3vw] font-bold text-center;
+}
+
+.league_next_blinds_title {
+    @apply bg-gradient-to-b from-white to-emerald-400 bg-clip-text text-transparent text-[3vw] font-bold text-center;
 }
 
 .next_blinds_title_break {
-    @apply bg-gradient-to-b from-white to-cyan-400 bg-clip-text text-transparent text-6xl font-bold text-center
+    @apply bg-gradient-to-b from-white to-cyan-400 bg-clip-text text-transparent text-6xl font-bold text-center;
 }
 
 .round {
-    @apply bg-gradient-to-t from-rose-400 to-white bg-clip-text text-transparent text-[4vw] font-bold text-center
+    @apply bg-gradient-to-t from-rose-400 to-white bg-clip-text text-transparent text-[4vw] font-bold text-center;
 }
 
 .round_break {
-    @apply bg-gradient-to-t from-cyan-400 to-white bg-clip-text text-transparent text-8xl font-bold text-center
+    @apply bg-gradient-to-t from-cyan-400 to-white bg-clip-text text-transparent text-8xl font-bold text-center;
 }
 
+.league_round {
+    @apply bg-gradient-to-t from-emerald-400 to-white bg-clip-text text-transparent text-8xl font-bold text-center;
+}
+
+/* ─────────────────────────────────────────────── */
+/* 👤 Player UI Elements                          */
+/* ─────────────────────────────────────────────── */
+.players_submit_button {
+    @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-auto px-2 py-1 bg-cyan-600 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
+}
+
+.players_text_field {
+    @apply text-center text-cyan-400 w-64 border-2 border-cyan-600 bg-zinc-600 rounded focus:ring-4 focus:ring-cyan-600 font-bold caret-cyan-600 placeholder-cyan-400;
+}
+
+.players_form_labels {
+    @apply bg-gradient-to-b from-cyan-600 to-cyan-200 bg-clip-text text-transparent px-4 pb-4 mb-1 text-xl font-bold;
+}
+
+.player_containers {
+    @apply mb-6 flex flex-row w-full py-4 justify-between items-center rounded-lg border-4 border-cyan-200 bg-zinc-900 relative;
+}
+
+/* ─────────────────────────────────────────────── */
+/* 🟢 League UI Elements                          */
+/* ─────────────────────────────────────────────── */
+.leagues_button {
+    @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-auto px-4 py-2 bg-emerald-600 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
+}
+
+.leagues_index_title {
+    @apply bg-gradient-to-b from-emerald-400 to-white bg-clip-text text-transparent text-6xl font-bold text-center my-8;
+}
+
+.league_form_title {
+    @apply mb-4 bg-gradient-to-t from-emerald-600 to-white bg-clip-text text-transparent text-4xl font-bold text-center;
+}
+
+.leagues_form_labels {
+    @apply bg-gradient-to-b from-emerald-600 to-emerald-200 bg-clip-text text-transparent px-4 py-4 mb-2  text-xl font-bold;
+}
+
+.leagues_text_field {
+    @apply text-center text-emerald-400 w-64 border-2 border-emerald-600 bg-zinc-500 rounded focus:ring-4 focus:ring-emerald-600 font-bold caret-emerald-600 placeholder-emerald-400;
+}
+
+.leagues_blind_field {
+    @apply text-center text-emerald-400 md:w-16 w-20 border-2 border-emerald-600 bg-zinc-500 rounded focus:ring-4 focus:ring-emerald-600 font-bold caret-emerald-600 placeholder-emerald-400;
+}
+
+.leagues_number_field {
+    @apply text-center text-emerald-400 w-24 border-2 border-emerald-600 bg-zinc-500 rounded focus:ring-4 focus:ring-emerald-600 font-bold caret-emerald-600 placeholder-emerald-400;
+}
+
+.leagues_submit_button {
+    @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-32 bg-emerald-600 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
+}
+
+.leagues_start_button {
+    @apply text-center text-2xl font-semibold hover:font-extrabold text-zinc-200 w-auto px-6 py-2 bg-emerald-600 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
+}
+
+.league_containers {
+    @apply mb-12 flex flex-row w-full py-4 justify-between items-center rounded-lg border-4 border-emerald-200 bg-zinc-900 relative;
+}
+
+.league_header {
+    @apply mb-2 bg-gradient-to-t from-emerald-600 to-white bg-clip-text text-transparent text-6xl font-bold text-center;
+}
+
+.league_show_single_container {
+    @apply flex flex-col justify-around text-emerald-400 font-bold text-xl text-center relative;
+}
+
+.league_edit_button {
+    @apply inline-flex items-center justify-center w-8 h-8 bg-emerald-200 text-black rounded-full hover:bg-emerald-400;
+}
+
+.leagues_modal_edit_button {
+    @apply text-center text-lg font-semibold hover:font-bold text-zinc-200 w-auto px-2 bg-emerald-600 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer;
+}
+
+.leagues_new_edit_container {
+    @apply bg-zinc-800 border border-emerald-400 rounded-lg px-8 py-10 shadow-xl w-full max-w-3xl mx-auto
+}
+
+.leagues_form_checkbox {
+    @apply mt-1 w-4 h-4 focus:ring-2 accent-emerald-600 bg-zinc-500 focus:ring-emerald-600 checked:bg-emerald-500 checked:text-black rounded-full;
+}
+
+.games_form_checkbox {
+    @apply mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-500 checked:text-black rounded-full;
+}
+
+/* ─────────────────────────────────────────────── */
+/* 🧰 Utility + Misc                              */
+/* ─────────────────────────────────────────────── */
 .hidden {
-    @apply text-zinc-800 text-2xl font-bold text-center
+    @apply text-zinc-800 text-2xl font-bold text-center;
 }
 
 .winner {
-    @apply z-0 bg-gradient-to-r from-rose-600 to-slate-300 bg-clip-text text-transparent text-9xl pb-8 font-bold text-center
+    @apply z-0 bg-gradient-to-r from-rose-600 to-slate-300 bg-clip-text text-transparent text-[8vw] pb-8 font-bold text-center;
 }
 
+.league_winner {
+    @apply z-0 bg-gradient-to-r from-emerald-500 to-slate-300 bg-clip-text text-transparent text-[8vw] pb-8 font-bold text-center;
+}
+
+html, body {
+    overflow-x: hidden;
+}
