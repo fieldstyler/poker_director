@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    <% if @game.present? %>
+      <meta name="game-completed" content="<%= @game.completed? %>">
+    <% end %>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -26,5 +30,30 @@
     <%= render 'layouts/navbar' %>
     <%= render 'layouts/app' %>
     <%= yield %>
+    <script>
+      function filterPlayers(query) {
+        const lower = query.toLowerCase();
+        document.querySelectorAll('#player-checkboxes label').forEach(label => {
+          const checkbox = label.querySelector('input[type="checkbox"]');
+          const name = checkbox.dataset.name;
+          const email = checkbox.dataset.email;
+          if (name.includes(lower) || email.includes(lower)) {
+            label.style.display = '';
+          } else {
+            label.style.display = 'none';
+          }
+        });
+      }
+
+      function toggleAllPlayers(button) {
+        const checkboxes = document.querySelectorAll('.player-checkbox');
+        const selectAll = button.dataset.state === 'select';
+
+        checkboxes.forEach(cb => cb.checked = selectAll);
+        button.textContent = selectAll ? 'Deselect All' : 'Select All';
+        button.dataset.state = selectAll ? 'deselect' : 'select';
+      }
+    </script>
+
   </body>
 </html>

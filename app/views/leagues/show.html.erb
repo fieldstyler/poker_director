@@ -1,0 +1,327 @@
+<div class="flex justify-start px-8 mt-8 ">
+  <%= link_to "← Back to All Leagues", leagues_path,
+    class: "text-emerald-400 hover:text-emerald-100 font-semibold underline" %>
+</div>
+
+<div class="game_show_page_container">
+  <div class="leagues_index_title pb-4"><%= @league.name %> Details</div>
+
+    <div class="league_containers px-8">
+      <div class="league_show_single_container">
+        <div class="underline">Sessions Completed</div>
+        <div><%= "#{@league.completed_sessions} / #{@league.number_of_sessions}" %></div>
+      </div>
+      <div class="league_show_single_container">
+        <div class="underline">Players</div>
+        <div><%= @league.players.count %></div>
+      </div>
+      <div class="">
+        <a href="javascript:void(0);" onclick="document.getElementById('completed-sessions-modal').classList.remove('hidden')" class="text-xl text-emerald-400 hover:text-emerald-100 underline font-semibold">
+          Completed Sessions
+        </a>
+      </div>
+      <div class="">
+        <a
+          href="javascript:void(0);"
+          onclick="document.getElementById('standings-modal').classList.remove('hidden')"
+          class="text-xl text-emerald-400 hover:text-emerald-100 underline font-semibold"
+        >
+          Standings
+        </a>
+      </div>
+      <div class="">
+        <a
+          href="javascript:void(0);"
+          onclick="document.getElementById('structure-modal').classList.remove('hidden')"
+          class="text-xl text-emerald-400 hover:text-emerald-100 underline font-semibold"
+        >
+          Game Structure
+        </a>
+      </div>
+      <%= link_to edit_league_path(@league), class: "league_edit_button" do %>
+        <%= heroicon "pencil-square", title: "Edit", type: "outline" %>
+      <% end %>
+    </div>
+    <%= button_to "Start Next Session", start_league_session_path(@league), method: :post, class: "leagues_start_button" %>
+  </div>
+</div>
+<div id="completed-sessions-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+  <div class="bg-zinc-900 border border-emerald-500 rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh] relative">
+    <h2 class="text-emerald-300 text-2xl font-bold mb-6 text-center">Completed Sessions</h2>
+
+    <div class="text-center mb-4">
+      <label for="session-select" class="text-emerald-200 font-semibold mr-2">Select Session:</label>
+      <select id="session-select" class="bg-zinc-800 text-emerald-200 border border-emerald-400 rounded px-2 py-1">
+        <% @league.games.where(completed: true).order(:created_at).each_with_index do |game, i| %>
+          <option value="session-<%= i + 1 %>">Session <%= i + 1 %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <% @league.games.where(completed: true).order(:created_at).each_with_index do |game, i| %>
+      <div id="session-<%= i + 1 %>" class="session-table hidden mb-8">
+        <h3 class="text-emerald-200 text-xl font-semibold mb-2">Session <%= i + 1 %></h3>
+        <table class="w-full text-emerald-200 text-center font-semibold mb-4">
+          <thead>
+            <tr class="border-b border-emerald-300">
+              <th class="pb-2">Player</th>
+              <th class="pb-2">Knockouts</th>
+              <th class="pb-2">Total Points</th>
+              <th class="pb-2">Eliminated By</th>
+            </tr>
+          </thead>
+          <% game_players = game.game_players.includes(:player, :eliminated_by_player).load %>
+          <% placements = game_players.where(eliminated: true).order(:updated_at).to_a %>
+          <% winner = game_players.find_by(eliminated: false) %>
+          <% placements << winner if winner %>
+
+          <tbody>
+            <% placements.reverse.each do |gp| %>
+              <tr class="border-b border-emerald-700 hover:bg-emerald-900/30">
+                <td class="py-2"><%= gp.player.full_name %></td>
+                <td><%= gp.session_knockouts || 0 %></td>
+                <td><%= gp.session_points || 0 %></td>
+                <td><%= gp.eliminated_by_player&.full_name || "-" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <button
+      class="absolute top-2 right-2 text-emerald-300 hover:text-emerald-100 text-xl font-bold cursor-pointer"
+      onclick="document.getElementById('completed-sessions-modal').classList.add('hidden')">
+      ×
+    </button>
+  </div>
+</div>
+<div
+  id="standings-modal"
+  class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+>
+  <div class="bg-zinc-900 border border-emerald-500 rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh] relative">
+    <h2 class="text-emerald-300 text-2xl font-bold mb-4 text-center">League Standings</h2>
+
+        <!-- View Table (default visible) -->
+    <table id="standings-view-table" class="w-full text-emerald-200 text-center font-semibold">
+      <thead>
+        <tr class="border-b border-emerald-300">
+          <th class="pb-2">Player</th>
+          <th class="pb-2">Season Points</th>
+          <th class="pb-2">Knockouts</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @league.league_players.includes(:player)
+              .sort_by { |p| [-p.season_points, -p.season_knockouts, p.full_name.downcase] }
+              .each do |lp| %>
+          <tr class="border-b border-emerald-700 hover:bg-emerald-900/30">
+            <td class="py-2"><%= lp.player.full_name %></td>
+            <td><%= lp.season_points %></td>
+            <td><%= lp.season_knockouts %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <!-- Edit Form Table (hidden initially) -->
+    <form
+      id="edit-standings-form"
+      action="<%= update_standings_league_path(@league) %>"
+      method="post"
+      class="hidden flex flex-col items-center gap-4"
+    >
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <input type="hidden" name="_method" value="patch" />
+
+      <table class="w-full text-emerald-200 text-center font-semibold mt-4">
+        <thead>
+          <tr class="border-b border-emerald-300">
+            <th class="pb-2">Player</th>
+            <th class="pb-2">Season Points</th>
+            <th class="pb-2">Knockouts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @league.league_players.includes(:player)
+                .sort_by { |p| [-p.season_points, -p.season_knockouts, p.full_name.downcase] }
+                .each do |lp| %>
+            <tr class="border-b border-emerald-700 hover:bg-emerald-900/30">
+              <td class="py-2"><%= lp.player.full_name %></td>
+              <td>
+                <input
+                  type="number"
+                  name="points[<%= lp.id %>]"
+                  value="<%= lp.season_points %>"
+                  class="w-16 text-emerald-300 px-1 rounded bg-zinc-700 border border-emerald-500"
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="knockouts[<%= lp.id %>]"
+                  value="<%= lp.season_knockouts %>"
+                  class="w-16 text-emerald-300 px-1 rounded bg-zinc-700 border border-emerald-500"
+                />
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="flex justify-center gap-4 mt-4">
+        <button
+          type="submit"
+          class="bg-emerald-600 text-white px-4 py-2 rounded hover:font-bold cursor-pointer"
+        >
+          Save Changes
+        </button>
+        <button
+          type="button"
+          class="bg-rose-600 text-white px-4 py-2 rounded hover:font-bold cursor-pointer"
+          onclick="exitStandingsEditMode()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+
+
+    <div class="text-center mt-4">
+      <button
+        id="toggle-edit-standings"
+        class="border border-emerald-400 text-emerald-300 hover:bg-emerald-800 px-4 py-2 rounded transition cursor-pointer"
+      >
+        Edit Standings
+      </button>
+    </div>
+
+    <button
+      class="absolute top-2 right-2 text-emerald-300 hover:text-emerald-100 text-xl font-bold cursor-pointer"
+      onclick="document.getElementById('standings-modal').classList.add('hidden')"
+    >
+      ×
+    </button>
+  </div>
+</div>
+<div
+  id="structure-modal"
+  class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+>
+  <div class="bg-zinc-900 border border-emerald-500 rounded-lg p-6 w-full max-w-4xl overflow-y-auto max-h-[90vh] relative">
+    <h2 class="text-emerald-300 text-2xl font-bold mb-6 text-center">Game Structure</h2>
+
+    <% if @league.games.any? %>
+      <% game = @league.games.last %>
+
+      <div class="grid grid-cols-2 gap-4 text-emerald-200 mb-6 text-center">
+        <div><span class="font-bold">Buy-In:</span> $<%= game.buy_in %></div>
+        <div><span class="font-bold">Levels:</span> <%= game.level_count %></div>
+        <div><span class="font-bold">Starting Stack:</span> <%= number_with_delimiter(game.starting_stack) %></div>
+        <div><span class="font-bold">Round Length:</span> <%= game.round_length %> min</div>
+        <div><span class="font-bold">Places Paid:</span> <%= game.places_paid %></div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="table-auto w-full text-sm text-center text-emerald-200">
+          <thead>
+            <tr class="border-b border-emerald-300 text-emerald-100">
+              <th class="p-2">Level</th>
+              <th class="p-2">SB</th>
+              <th class="p-2">BB</th>
+              <th class="p-2">Ante</th>
+              <th class="p-2">Length</th>
+              <th class="p-2">Break After?</th>
+              <th class="p-2">Break Length</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% game.levels.order(:id).each_with_index do |level, i| %>
+              <tr class="border-b border-emerald-800 hover:bg-emerald-900/30">
+                <td class="p-2"><%= i + 1 %></td>
+                <td class="p-2"><%= number_with_delimiter(level.sb) %></td>
+                <td class="p-2"><%= number_with_delimiter(level.bb) %></td>
+                <td class="p-2"><%= level.ante == "0" ? "" : number_with_delimiter(level.ante) %></td>
+                <td class="p-2"><%= level.length %> min</td>
+                <td class="p-2"><%= level.break? ? "Yes" : "" %></td>
+                <td class="p-2"><%= level.break_length == "0" ? "" : "#{level.break_length} min"%></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-emerald-300 text-center font-bold">No game structure defined yet.</p>
+    <% end %>
+    <div class="flex justify-end mt-6 space-x-4">
+      <% if @game.present? && @league.present? %>
+        <%= link_to "Edit", edit_league_game_path(@league, @game),
+            class: "leagues_modal_edit_button" %>
+      <% else %>
+        <%= link_to "Create Game", new_league_game_path(@league, @game),
+            class: "leagues_modal_edit_button" %>
+      <% end %>
+    </div>
+    <button
+      class="absolute top-2 right-2 text-emerald-300 hover:text-emerald-100 text-xl font-bold cursor-pointer"
+      onclick="document.getElementById('structure-modal').classList.add('hidden')"
+    >
+      ×
+    </button>
+  </div>
+</div>
+
+<script>
+  // Event delegation: waits for any clicks on the whole page
+  document.addEventListener('click', function (e) {
+    const toggleBtn = e.target.closest('#toggle-edit-standings');
+    if (toggleBtn) {
+      toggleBtn.classList.add('hidden');
+
+      const viewTable = document.getElementById('standings-view-table');
+      const editForm = document.getElementById('edit-standings-form');
+
+      if (viewTable) viewTable.classList.add('hidden');
+      if (editForm) editForm.classList.remove('hidden');
+    }
+  });
+
+  function exitStandingsEditMode() {
+    const toggleBtn = document.getElementById('toggle-edit-standings');
+    const editForm = document.getElementById('edit-standings-form');
+    const viewTable = document.getElementById('standings-view-table');
+
+    if (toggleBtn) toggleBtn.classList.remove('hidden');
+    if (editForm) {
+      editForm.classList.add('hidden');
+      editForm.reset();
+    }
+    if (viewTable) viewTable.classList.remove('hidden');
+  }
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('session-select');
+    const sessionTables = document.querySelectorAll('.session-table');
+
+    function showSelectedSession() {
+      const selectedId = select.value;
+
+      sessionTables.forEach(table => {
+        table.classList.add('hidden');
+      });
+
+      const selectedTable = document.getElementById(selectedId);
+      if (selectedTable) {
+        selectedTable.classList.remove('hidden');
+      }
+    }
+
+    select.addEventListener('change', showSelectedSession);
+
+    // Show the first session by default
+    showSelectedSession();
+  });
+</script>
+

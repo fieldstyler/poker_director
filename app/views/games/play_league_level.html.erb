@@ -1,0 +1,246 @@
+<% if params[:hard] %>
+  <meta http-equiv="refresh" content="0; url=<%= league_game_blinds_path(@league.id, @game.id, count: @count) %>" />
+<% end %>
+<div class="game_play_full">
+  <div class="game_play_containers">
+    <div class="game_details_containers">
+      <button id="click" type="button" class="league_game_details_break">Date: <%= Date.today.strftime("%m-%d-%y") %></button>
+    </div>
+
+    <% if @game.levels[@count-1].break %>
+      <div class="game_details_containers">
+        <div class="league_game_details_break"><%= @game.levels[@count-1].break_length %> Minute Break</div>
+        <div class="league_game_details_break">After This Level</div>
+      </div>
+    <% else %>
+      <% next_break = @game.levels[@count..].find.with_index { |l, i| l.break } %>
+      <div class="game_details_containers">
+        <% if next_break %>
+          <div class="league_game_details_break">Break After</div>
+          <div class="league_game_details_break">Level <%= @count + @game.levels[@count..].index(next_break) + 1 %></div>
+        <% else %>
+          <div class="hidden">No More Breaks</div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @game.levels[@count] %>
+      <div class="game_details_containers">
+        <div class="league_next_blinds_title">Next Blinds</div>
+        <div class="next_blinds_break"><%= add_commas(@game.levels[@count].sb) %> - <%= add_commas(@game.levels[@count].bb) %></div>
+        <% if @game.levels[@count].ante != "0" %>
+          <div class="next_blinds_break">Ante: <%= @game.levels[@count].ante %></div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="game_play_containers">
+    <div class="league_round">Level <%= @count %></div>
+    <% if @count != @game.levels.count %>
+      <div id="countdown" class="league_timer"></div>
+    <% else %>
+      <div id="countdown" class="league_winner">Play Until Winner!</div>
+    <% end %>
+
+    <div class="game_details_containers">
+      <div class="league_current_blinds_title">Current Blinds</div>
+      <div class="current_blinds"><%= add_commas(@game.levels[@count-1].sb) %> - <%= add_commas(@game.levels[@count-1].bb) %></div>
+      <% if @game.levels[@count-1].ante != "0" %>
+        <div class="current_blinds">Ante: <%= @game.levels[@count-1].ante %></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="game_play_containers">
+    <div class="game_details_containers">
+      <div class="league_game_details">Buy-in: $<%= @game.buy_in %></div>
+      <div class="league_game_details">Players: <%= @game.players.count %></div>
+    </div>
+
+    <div class="game_details_containers">
+      <div class="league_game_details">Payouts</div>
+      <br>
+      <% total = @game.buy_in.to_f * @game.players.count %>
+      <% payouts = payout_percentages(@game.places_paid.to_i) %>
+      <% payouts.each_with_index do |percent, i| %>
+        <div class="league_game_details">
+          <%= "#{i+1}#{['st','nd','rd','th'][i] || 'th'}" %>: $<%= (total * percent).round %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+  <div id="action-buttons" class="<%= 'hidden' if @game.game_players.where(eliminated: false).count <= 1 %>">
+    <% if @game.knockouts %>
+      <button id="knockout-button" class="fixed bottom-4 right-28 border-rose-600 border-1 bg-zinc-800 text-rose-600 hover:text-white px-4 py-2 rounded-xl shadow-lg z-50 hover:bg-rose-500 cursor-pointer">
+        Track Knockout
+      </button>
+    <% end %>
+    <button id="pause-button" class="fixed bottom-4 right-4 border-emerald-400 border-1 bg-zinc-800 text-emerald-400 hover:text-white px-4 py-2 rounded-xl shadow-lg z-50 hover:bg-emerald-400 cursor-pointer">
+      Pause
+    </button>
+  </div>
+  <div id="complete-session-button" class="<%= 'hidden' if @game.game_players.where(eliminated: false).count > 1 %>">
+    <%= button_to "Complete Session", complete_session_game_path(@game), method: :post, class: "fixed bottom-4 right-4 border-emerald-400 border-1 bg-zinc-800 text-emerald-400 hover:text-white px-4 py-2 rounded-xl shadow-lg z-50 hover:bg-emerald-400 cursor-pointer" %>
+  </div>
+  <% if !@game.knockouts && @count == @game.levels.count %>
+    <div id="end-session-button">
+      <%= button_to "End Session", complete_session_game_path(@game), method: :post,
+            class: "fixed bottom-4 right-4 border-emerald-400 border-1 bg-zinc-800 text-emerald-400 hover:text-white px-4 py-2 rounded-xl shadow-lg z-50 hover:bg-emerald-400 cursor-pointer" %>
+    </div>
+  <% end %>
+<div id="knockout-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+  <div class="bg-zinc-800 border-emerald-400 border-6 p-6 rounded-lg shadow-lg w-96">
+    <h2 class="text-3xl text-emerald-400 font-bold mb-4">Track Knockout</h2>
+
+    <form id="knockout-form">
+      <label class="block mb-2 text-white font-medium">Knocker (Who knocked out someone?)</label>
+      <select id="knocker-select" name="knocker_id" class="w-full mb-4 p-2 border-emerald-400 border-2 text-white rounded">
+        <% @game.players.each do |player| %>
+          <% game_player = @game.game_players.find_by(player: player) %>
+          <% unless game_player&.eliminated %>
+            <option value="<%= player.id %>"><%= player.full_name %></option>
+          <% end %>
+        <% end %>
+      </select>
+      <label class="block mb-2 text-white font-medium">Victim (Who got knocked out?)</label>
+      <select id="victim-select" name="victim_id" class="w-full mb-4 p-2 border-emerald-400 border-2 text-white rounded">
+        <% @game.players.each do |player| %>
+          <% game_player = @game.game_players.find_by(player: player) %>
+          <% unless game_player&.eliminated %>
+            <option value="<%= player.id %>"><%= player.full_name %></option>
+          <% end %>
+        <% end %>
+      </select>
+      <div class="flex justify-between mt-4">
+        <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded hover:font-bold cursor-pointer">Submit</button>
+        <button type="button" id="close-knockout-modal" class="bg-rose-600 rounded px-2 text-white hover:font-bold cursor-pointer">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  let timer;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const countdownEl = document.getElementById('countdown');
+    const pauseBtn = document.getElementById('pause-button');
+
+    let count = <%= @count %>;
+    let levels = <%= raw(@game.levels.to_json) %>;
+    let level = levels[count - 1];
+    let time = parseInt(level.length);
+    let isPaused = false;
+
+    const isLastLevel = count >= levels.length;
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', () => {
+        isPaused = !isPaused;
+        pauseBtn.innerText = isPaused ? "Resume" : "Pause";
+      });
+    }
+
+    if (!isLastLevel) {
+      timer = setInterval(() => {
+        if (!isPaused && time >= 0) {
+          const minutes = Math.floor(time / 60);
+          let seconds = time % 60;
+          seconds = seconds < 10 ? '0' + seconds : seconds;
+          countdownEl.innerHTML = `${minutes}:${seconds}`;
+          time--;
+        } else if (!isPaused && time < 0) {
+          clearInterval(timer);
+
+          if (level.break) {
+            window.location.href = "<%= league_game_break_path(@league, @game, count: '__COUNT__') %>".replace('__COUNT__', count + 1);
+          } else {
+            window.location.href = "<%= league_game_blinds_path(@league, @game, count: '__COUNT__') %>".replace('__COUNT__', count + 1);
+          }
+        }
+      }, 1000);
+
+      window.addEventListener('beforeunload', () => {
+        if (timer) {
+          clearInterval(timer);
+        }
+      });
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const knockoutBtn = document.getElementById('knockout-button');
+    const knockoutModal = document.getElementById('knockout-modal');
+    const closeModalBtn = document.getElementById('close-knockout-modal');
+
+    if (knockoutBtn && knockoutModal) {
+      knockoutBtn.addEventListener('click', () => {
+        knockoutModal.classList.remove('hidden');
+      });
+    }
+
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', () => {
+        knockoutModal.classList.add('hidden');
+      });
+    }
+
+    const knockoutForm = document.getElementById('knockout-form');
+
+    if (knockoutForm) {
+      knockoutForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(knockoutForm);
+        const knocker_id = formData.get("knocker_id");
+        const victim_id = formData.get("victim_id");
+
+        if (knocker_id === victim_id) {
+          alert("A player cannot knock themselves out!");
+          return;
+        }
+
+        const response = await fetch("<%= knockout_game_path(@game) %>", {
+          method: "POST",
+          headers: {
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            knocker_id: knocker_id,
+            victim_id: victim_id
+          })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert(`${result.knocker_name} knocked out ${result.victim_name}! Total knockouts: ${result.new_count}`);
+
+          // Remove victim from dropdown
+          const victimOption = document.querySelector(`#victim-select option[value='${result.victim_id}']`);
+          if (victimOption) victimOption.remove();
+
+          // Remove victim from knocker dropdown too
+          const knockerOption = document.querySelector(`#knocker-select option[value='${result.victim_id}']`);
+          if (knockerOption) knockerOption.remove();
+
+          // Check if only one player remains
+          const remainingPlayers = document.querySelectorAll('#victim-select option').length;
+          if (remainingPlayers <= 1) {
+            document.getElementById('action-buttons').classList.add('hidden');
+            document.getElementById('complete-session-button').classList.remove('hidden');
+          }
+
+          knockoutModal.classList.add("hidden");
+        } else {
+          alert("Knockout failed.");
+        }
+      });
+    }
+  });
+</script>
+

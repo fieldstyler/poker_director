@@ -11,7 +11,7 @@
         </div>
         <div class='game_show_single_container'> 
             <div class='underline'>Players</div>
-            <div class=''><%= 10 %></div>
+            <div class=''><%= @game.player_count %></div>
         </div>
         <div class='game_show_single_container'> 
             <div class='underline'>Places Paid</div>
@@ -77,11 +77,13 @@
             <%= heroicon "pencil-square", title: "Edit", type: "outline", class: "single_game_levels_edit_button" %>
         <% end %>
     </div>
-    <div class='players_header'> Players </div>
-    <div class='game_players_containers'> 
-        <div class='game_players_single_container'>Players</div>
-    </div>
+    <% if 1 == 2 %>
+        <div class='game_players_header'> Players </div>
+        <div class='game_players_containers'> 
+            <div class='game_players_single_container'>Players</div>
+        </div>
+    <% end %>
     <div class='game_start_container'> 
-        <div><%= link_to "Start Game", game_blinds_path(@game.id, 1) %></div>
+        <div><%= link_to "Start Game", game_blinds_path(@game.id, count: 1, hard: true) %></div>
     </div>
 </div>

@@ -1,5 +1,10 @@
-<%= form_with url: games_new_levels_path, method: :post do |form| %>
+<%= form_with model: Game.new, url: games_new_levels_path, method: :post, local: true do |form| %>
+    <div class='single_game_header pt-12 pb-4'> Game Details </div>
     <div class="grid grid-cols-1 justify-items-center mt-8">
+        <div class="mt-2 mb-4">
+            <%= form.label :player_count, "Players: ", class: "game_form_labels" %>
+            <%= form.number_field :player_count, in: 0..10000, step: 1, class: "text_field" %>
+        </div>
         <div class="mt-6 mb-4">
             <%= form.label :buy_in, "Buy-In: ", class: "game_form_labels" %>
             <%= form.number_field :buy_in, in: 0..10000, step: 10, class: "text_field" %>
@@ -16,14 +21,16 @@
             <%= form.label :places_paid, "Places Paid: ", class: "game_form_labels" %>
             <%= form.number_field :places_paid, class: "text_field" %>
         </div>
-        <div class="mt-4 mb-4">
-            <%= form.label :knockouts, "Knockouts?", class: "game_form_labels" %>
-            <%= form.checkbox :knockouts, type: "checkbox", class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
-        </div>
-        <div class="mt-4 mb-4">
-            <%= form.label :rebuys, "Rebuys?", class: "game_form_labels" %>
-            <%= form.checkbox :rebuys, type: "checkbox", class: "mt-1 w-4 h-4 focus:ring-2 accent-rose-600 focus:ring-rose-600 checked:bg-rose-600 checked:text-black rounded-8" %>
-        </div>
+        <% if 1 == 2 %>
+            <div class="mt-4 mb-4">
+                <%= form.label :knockouts, "Knockouts?", class: "game_form_labels" %>
+                <%= form.checkbox :knockouts, type: "checkbox", class: "games_form_checkbox" %>
+            </div>
+            <div class="mt-4 mb-4">
+                <%= form.label :rebuys, "Rebuys?", class: "game_form_labels" %>
+                <%= form.checkbox :rebuys, type: "checkbox", class: "games_form_checkbox" %>
+            </div>
+        <% end %>
         <div class="mt-4 mb-4">
             <%= form.label :level_count, "How Many Levels? ", class: "game_form_labels" %>
             <%= form.number_field :level_count, class: "text_field" %>

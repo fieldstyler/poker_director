@@ -1,0 +1,65 @@
+<div class="game_show_page_container">
+  <div class="relative w-full h-20 bg-zinc-800 flex items-center justify-center">
+
+    <div class="players_header text-center">Players</div>
+
+    <div class="absolute left-8 top-1/2 -translate-y-1/2">
+      <%= link_to "Add New Player", new_player_path, class: "players_submit_button" %>
+    </div>
+
+    <div class="absolute right-8 top-1/2 -translate-y-1/2">
+    <%= form_with url: players_path, method: :get, local: true, class: "flex items-center space-x-2" do |form| %>
+      <%= form.label :query, nil, class: "sr-only" %>
+      <%= form.text_field :query, value: params[:query], placeholder: "Search...", class: "players_text_field" %>
+      <%= form.submit "Search", class: "players_submit_button" %>
+      <% if params[:query].present? %>
+        <%= link_to "Clear", players_path, class: "text-center text-lg font-semibold hover:font-bold text-zinc-200 w-auto px-2 py-1 bg-rose-300 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer" %>
+      <% end %>
+    <% end %>
+    
+    </div>
+  </div>
+
+  <div class="game_players_containers mt-4">
+    <div class="flex flex-col w-full max-h-[530px] overflow-y-auto border border-cyan-200 rounded-md">
+      
+      <table class="table-auto w-full text-cyan-300 font-bold text-center">
+        <thead>
+          <tr class="border-b border-cyan-200">
+            <th class="text-xl p-4">Name</th>
+            <th class="text-xl p-4">Email</th>
+            <th class="text-xl p-4">Leagues</th>
+            <th class="text-xl p-4">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @players.each do |player| %>
+            <tr class="border-b border-cyan-200 hover:bg-cyan-900/30">
+              <td class="text-cyan-400 p-4"><%= player.first_name %> <%= player.last_name %></td>
+              <td class="text-cyan-400 p-4"><%= player.email %></td>
+              <td class="p-4">
+                <% if player.leagues.any? %>
+                  <%= player.leagues.map { |league|
+                    link_to league.name, league_path(league), class: "underline text-cyan-400 hover:text-emerald-300"
+                  }.join(", ").html_safe %>
+                <% else %>
+                  No League
+                <% end %>
+              </td>
+              <td class="p-4 space-x-2">
+                <%= link_to edit_player_path(player), class: "inline-flex items-center justify-center w-8 h-8 bg-cyan-200 text-black rounded-full hover:bg-cyan-400" do %>
+                  <%= heroicon "pencil-square", title: "Edit", type: "outline", class: "w-4 h-4" %>
+                <% end %>
+                <%= link_to player_path(player), method: :delete, data: { confirm: "Are you sure?" }, class: "inline-flex items-center justify-center w-8 h-8 bg-red-200 text-black rounded-full hover:bg-red-400" do %>
+                  <%= heroicon "trash", title: "Delete", type: "outline", class: "w-4 h-4" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

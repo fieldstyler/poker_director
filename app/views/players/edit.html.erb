@@ -1,0 +1,27 @@
+<div class="game_show_page_container">
+  <div class="players_header"> Edit Player </div>
+
+  <%= form_with model: @player, local: true do |form| %>
+    <div class="player_containers flex flex-wrap gap-12 px-4 justify-around">
+
+      <div class="flex flex-col items-center">
+        <div class="players_form_labels">First Name</div>
+        <%= form.text_field :first_name, class: "players_text_field" %>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="players_form_labels">Last Name</div>
+        <%= form.text_field :last_name, class: "players_text_field" %>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <div class="players_form_labels">Email</div>
+        <%= form.email_field :email, class: "players_text_field" %>
+      </div>
+    </div>
+
+    <div class="flex justify-center mt-8">
+      <%= form.submit "Update Player", class: "players_submit_button" %>
+    </div>
+  <% end %>
+</div>

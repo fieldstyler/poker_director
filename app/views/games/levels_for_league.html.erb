@@ -1,0 +1,31 @@
+<%= form_with url: league_levels_create_path(@league), method: :post do |form| %>
+    <div class="max-h-[75vh] overflow-y-auto px-4 pb-4">
+      <div class="grid grid-cols-1 justify-items-center mt-8">
+        <% @levels.to_i.times do %> 
+          <div class="mt-6 mb-4">
+            <%= form.label :level, "Level #{@count}: ", class: "leagues_form_labels" %>
+            <%= form.label :sb, "Small Blind: ", class: "leagues_form_labels" %>
+            <%= form.number_field "sb#{@count}", in: 100..10000000, step: 100, value: 100*@count, class: "leagues_blind_field" %>
+            <%= form.label :bb, "Big Blind: ", class: "leagues_form_labels" %>
+            <%= form.number_field "bb#{@count}", in: 100..10000000, step: 100, value: 200*@count, class: "leagues_blind_field" %>
+            <%= form.label :ante, "Ante: ", class: "leagues_form_labels" %>
+            <%= form.number_field "ante#{@count}", in: 0..10000000, step: 100, value: 0, class: "leagues_blind_field" %>
+            <%= form.label :length, "Round Length: ", class: "leagues_form_labels" %>
+            <%= form.number_field "length#{@count}", in: 10..120, step: 5, value: @length, class: "leagues_blind_field" %>
+            <%= form.label :break, "Break After Level?", class: "leagues_form_labels" %>
+            <%= form.check_box "break#{@count}", class: "leagues_form_checkbox" %>
+            <%= form.label :break_length, "Break Length: ", class: "leagues_form_labels" %>
+            <%= form.number_field "break_length#{@count}", in: 0..120, step: 5, value: 0, class: "leagues_blind_field" %>
+          </div>
+          <% @count += 1 %>
+        <% end %>
+  
+        <%= form.hidden_field :id, value: @game.id %>
+      </div>
+    </div>
+  
+    <div class="sticky bottom-0 bg-zinc-800 py-4 mt-4 flex justify-center z-10">
+      <%= form.submit "Submit", name: nil, class: "leagues_submit_button" %>
+    </div>
+  <% end %>
+  

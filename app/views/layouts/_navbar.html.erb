@@ -1,40 +1,26 @@
-<% if current_page?(root_path) || current_page?(new_single_game_path) || (current_page?(single_game_levels_path) if !@game.nil?) || (current_page?(games_show_path) if !@game.nil?) || (current_page?(edit_game_path) if !@game.nil?)  || (current_page?(edit_single_game_levels_path) if !@game.nil?) || (current_page?(game_blinds_path) if !@game.nil?)%>
-    <header class="px-4 flex flex-wrap items-center py-4 bg-zinc-900 shadow-xl shadow-red-500">
-        <div class="flex-1 flex justify-between items-center">
-            <a href="/" class="bg-gradient-to-r from-red-500 to-white bg-clip-text text-transparent text-5xl font-extrabold italic">Poker Director</a>
-        </div>
-        <div class="flex items-center md:w-auto w-full" id="menu">
-            <nav>
-                <ul class="md:flex items-center justify-between text-base text-white pt-4 md:pt-0">
-                    <li><a class="bg-gradient-to-l from-red-500 to-white bg-clip-text text-transparent py-3 px-0 block font-bold text-2xl md:mb-0 mb-2" href="#">Welcome, Tyler</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-<% elsif current_page?(leagues_index_path) %>
-    <header class="px-4 flex flex-wrap items-center py-4 bg-zinc-900 shadow-xl shadow-emerald-400">
-        <div class="flex-1 flex justify-between items-center">
-            <a href="/" class="bg-gradient-to-r from-emerald-400 to-white bg-clip-text text-transparent text-5xl font-extrabold italic">Poker Director</a>
-        </div>
-        <div class="flex items-center md:w-auto w-full" id="menu">
-            <nav>
-                <ul class="md:flex items-center justify-between text-base text-white pt-4 md:pt-0">
-                    <li><a class="bg-gradient-to-l from-emerald-400 to-white bg-clip-text text-transparent py-3 px-0 block font-bold text-2xl md:mb-0 mb-2" href="#">Welcome, Tyler</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-<% elsif current_page?(players_index_path) || (current_page?(game_break_path) if !@game.nil?)%>
-    <header class="px-4 flex flex-wrap items-center py-4 bg-zinc-900 shadow-xl shadow-cyan-400">
-        <div class="flex-1 flex justify-between items-center">
-            <a href="/" class="bg-gradient-to-r from-cyan-400 to-white bg-clip-text text-transparent text-5xl font-extrabold italic">Poker Director</a>
-        </div>
-        <div class="flex items-center md:w-auto w-full" id="menu">
-            <nav>
-                <ul class="md:flex items-center justify-between text-base text-white pt-4 md:pt-0">
-                    <li><a class="bg-gradient-to-l from-cyan-400 to-white bg-clip-text text-transparent py-3 px-0 block font-bold text-2xl md:mb-0 mb-2" href="#">Welcome, Tyler</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-<% end %>
+<%# === Dynamic Header Style === %>
+<% gradient, shadow = case active_section
+   when :game   then ['from-red-500',     'shadow-red-500']
+   when :league then ['from-emerald-400', 'shadow-emerald-400']
+   when :player then ['from-cyan-400',    'shadow-cyan-400']
+   else              ['from-zinc-500',    'shadow-zinc-500']
+   end %>
+
+<header class="px-4 flex flex-wrap items-center py-4 bg-zinc-900 shadow-xl <%= shadow %>">
+  <div class="flex-1 flex justify-between items-center">
+    <a href="/" class="bg-gradient-to-r <%= gradient %> to-white bg-clip-text text-transparent text-5xl font-extrabold italic">
+      Poker Director
+    </a>
+  </div>
+  <div class="flex items-center md:w-auto w-full" id="menu">
+    <nav>
+      <ul class="md:flex items-center justify-between text-base text-white pt-4 md:pt-0">
+        <li>
+          <a class="bg-gradient-to-l <%= gradient %> to-white bg-clip-text text-transparent py-3 px-0 block font-bold text-2xl md:mb-0 mb-2" href="#">
+            Welcome, Tyler
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

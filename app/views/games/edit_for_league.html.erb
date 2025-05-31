@@ -1,0 +1,51 @@
+<%= form_with(model: @game, url: update_league_game_path(@game.league, @game), method: :patch, local: true) do |form| %>
+    <div class="grid grid-cols-1 justify-items-center mt-8">
+        <div class="mt-6 mb-4">
+            <%= form.label :buy_in, "Buy-In: ", class: "leagues_form_labels" %>
+            <%= form.number_field :buy_in, in: 0..10000, step: 10, value: @game.buy_in, class: "leagues_number_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.label :starting_stack, "Starting Stack: ", class: "leagues_form_labels" %>
+            <%= form.number_field :starting_stack, in: 5000..1000000, step: 5000, value: @game.starting_stack, class: "leagues_number_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.label :round_length, "Round Length: ", class: "leagues_form_labels" %>
+            <%= form.number_field :round_length, in: 10..120, step: 10, value: @game.round_length, class: "leagues_number_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.label :places_paid, "Places Paid: ", class: "leagues_form_labels" %>
+            <%= form.number_field :places_paid, value: @game.places_paid, class: "leagues_number_field" %>
+        </div>
+        <% if @game.knockouts == true %>
+            <div class="mt-4 mb-4">
+                <%= form.label :knockouts, "Knockouts?", class: "leagues_form_labels" %>
+                <%= form.checkbox :knockouts, type: "checkbox", checked: true, class: "leagues_form_checkbox" %>
+            </div>
+        <% else %>
+            <div class="mt-4 mb-4">
+                <%= form.label :knockouts, "Knockouts?", class: "leagues_form_labels" %>
+                <%= form.checkbox :knockouts, type: "checkbox", class: "leagues_form_checkbox" %>
+            </div>
+        <% end %>
+        <% if @game.rebuys == true %>
+            <div class="mt-4 mb-4">
+                <%= form.label :rebuys, "Rebuys?", class: "leagues_form_labels" %>
+                <%= form.checkbox :rebuys, type: "checkbox", checked: true, class: "leagues_form_checkbox" %>
+            </div>
+        <% else %>
+            <% if 1 == 2 %>
+                <div class="mt-4 mb-4">
+                    <%= form.label :rebuys, "Rebuys?", class: "leagues_form_labels" %>
+                    <%= form.checkbox :rebuys, type: "checkbox", class: "leagues_form_checkbox" %>
+                </div>
+            <% end %>
+        <% end %>
+        <div class="mt-4 mb-4">
+            <%= form.label :level_count, "How Many Levels? ", class: "leagues_form_labels" %>
+            <%= form.number_field :level_count, value: @game.level_count, class: "leagues_number_field" %>
+        </div>
+        <div class="mt-4 mb-4">
+            <%= form.submit "Submit", name: nil, class: "leagues_submit_button" %>
+        </div>
+    </div>
+<% end %>

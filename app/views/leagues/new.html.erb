@@ -1,0 +1,60 @@
+<div class="w-2/3 max-w-4xl mx-auto mt-12 bg-zinc-800 border border-emerald-400 rounded-lg px-10 py-10 shadow-lg">
+  <h1 class="league_form_title"><%= @league.new_record? ? "New League" : "Edit League" %></h1>
+
+  <%= form_with model: @league, local: true do |form| %>
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row items-center justify-center gap-16 w-full ">
+            <div class="flex flex-col items-center">
+                <label class="leagues_form_labels">League Name</label>
+                <%= form.text_field :name, class: "leagues_text_field w-full" %>
+            </div>
+            <div class="flex flex-col items-center">
+                <label class="leagues_form_labels">Number of Sessions</label>
+                <%= form.number_field :number_of_sessions, class: "leagues_number_field" %>
+            </div>
+        </div>
+    </div>
+
+    <div>
+      <h2 class="text-emerald-300 text-xl font-semibold mb-6 border-b border-emerald-500 pb-2">Assign Players</h2>
+
+      <div class="bg-zinc-900 border border-emerald-300 rounded-lg p-4 mb-6">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+          <input
+            type="text"
+            placeholder="Filter by name or email..."
+            id="player-filter"
+            class="leagues_text_field w-full md:w-2/3"
+            oninput="filterPlayers(this.value)"
+          />
+
+          <button
+            type="button"
+            onclick="toggleAllPlayers(this)"
+            class="text-center text-base font-semibold text-zinc-200 px-4 py-2 bg-emerald-600 border-2 border-zinc-200 rounded hover:bg-emerald-600 hover:border-emerald-200"
+            data-state="select"
+          >
+            Select All
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-64 overflow-y-auto text-emerald-300 pr-2" id="player-checkboxes">
+          <% Player.order(:first_name, :last_name).each do |player| %>
+            <label class="flex items-center space-x-2">
+              <%= check_box_tag "league[player_ids][]", player.id, @league.player_ids.include?(player.id),
+                  id: "player_#{player.id}",
+                  class: "accent-emerald-500 w-4 h-4 player-checkbox",
+                  data: { name: player.full_name.downcase, email: player.email.downcase } %>
+              <span><%= player.full_name %> (<%= player.email %>)</span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <%= form.submit @league.new_record? ? "Create League" : "Update League", class: "text-center text-lg font-semibold hover:font-bold text-zinc-200 bg-emerald-600 border-2 hover:border-3 border-zinc-200 rounded cursor-pointer w-auto px-4 py-2" %>
+    </div>
+  <% end %>
+</div>
